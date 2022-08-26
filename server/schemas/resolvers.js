@@ -19,15 +19,15 @@ const resolvers = {
     
   },
   Mutation: {
-    saveBook: async (parent, { req, book  })=> {
+    saveBook: async (parent, {  book  }, user)=> {
         try {
             console.log(JSON.stringify(req, null, 2));
           const updatedUser = await User.findOneAndUpdate(
-            { _id: req.body.user._id },
+            { _id: user.data._id },
             { $addToSet: { savedBooks: book } },
             { new: true, runValidators: true }
         );
-        return res.json(updatedUser);
+        return updatedUser;
         } catch (err) {
         console.log(err);
         return res.status(400).json(err);
